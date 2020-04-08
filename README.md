@@ -33,6 +33,23 @@ public class TestService {
     }
 }
 
+//或者自行构建LockInfo对象：
+
+@Autowired
+private RedisLockClient redisLockClient;
+LockInfo lockInfo = new LockInfo(LockType.Reentrant, param,
+                1, () -> lockParams(param),
+                6,() -> releaseParams(param));
+
+        LockInfo lockInfo1 = new LockInfo(LockType.Reentrant, param,1,6);
+
+        return redisLockClient.lock(() -> {
+            System.out.println("执行业务前");
+            Thread.sleep(1000 * 3);
+            System.out.println("执行业务后");
+            return "success";
+}, lockInfo1);
+
 ```
 
 4. 支持锁指定的业务key，如同一个方法ID入参相同的加锁，其他的放行。业务key的获取支持Spel，具体使用方式如下
@@ -64,21 +81,21 @@ spring.klock.address 和 spring.klock.cluster-server.node-addresses 选其一即
 ```
 @Klock可以标注四个参数，作用分别如下
 
-name：lock的name，对应redis的key值。默认为：类名+方法名
+name：lock的name，对应redis的key值。用注解时默认 为：类名+方法名
 
-lockType：锁的类型，目前支持（可重入锁，公平锁，读写锁）。默认为：公平锁
+lockType：锁的类型，目前支持（可重入锁，公平锁，读写锁）。默认为：可重入锁
 
-waitTime：获取锁最长等待时间。默认为：60s。同时也可通过spring.klock.waitTime统一配置
+waitTime：获取锁最长等待时间。默认为：10s。
 
-leaseTime：获得锁后，自动释放锁的时间。默认为：60s。同时也可通过spring.klock.leaseTime统一配置
+leaseTime：获得锁后，自动释放锁的时间。默认为：60s。
 
 lockTimeoutStrategy: 加锁超时的处理策略，可配置为不做处理、快速失败、阻塞等待的处理策略，默认策略为不做处理
 
-customLockTimeoutStrategy: 自定义加锁超时的处理策略，需指定自定义处理的方法的方法名，并保持入参一致。
+customLockTimeoutStrategy: 自定义加锁超时的处理策略，需指定自定义处理的方法的方法名，并保持入参一致。【还未实现】
 
 releaseTimeoutStrategy: 释放锁时，持有的锁已超时的处理策略，可配置为不做处理、快速失败的处理策略，默认策略为不做处理
 
-customReleaseTimeoutStrategy: 自定义释放锁时，需指定自定义处理的方法的方法名，并保持入参一致。
+customReleaseTimeoutStrategy: 自定义释放锁时，需指定自定义处理的方法的方法名，并保持入参一致。【还未实现】
 ```
 # 锁超时说明
 因为基于redis实现分布式锁，如果使用不当，会在以下场景下遇到锁超时的问题：
