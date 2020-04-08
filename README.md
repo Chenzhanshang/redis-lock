@@ -1,5 +1,5 @@
 ### 2020年04月08日
-基于https://github.com/kekingcn/spring-boot-klock-starter.git修改
+基于https://github.com/kekingcn/spring-boot-klock-starter.git 修改
 
 # 快速开始
 
