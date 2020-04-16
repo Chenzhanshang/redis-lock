@@ -69,27 +69,5 @@ public @interface Klock {
      */
      String customReleaseTimeoutStrategy() default "";
 
-    /**
-     * throw an runtime exception while fail to get lock
-     *
-     * @author piaoruiqing
-     *
-     * @return
-     */
-    Class<? extends RuntimeException> onFailure() default NoException.class;
-
-    /**
-     * no exception
-     *
-     * @author piaoruiqing
-     * @date: 2019/05/18 09:31
-     *
-     * @since JDK 1.8
-     */
-    public static final class NoException extends RuntimeException {
-
-        private static final long serialVersionUID = -7821936618527445658L;
-
-    }
 
 }

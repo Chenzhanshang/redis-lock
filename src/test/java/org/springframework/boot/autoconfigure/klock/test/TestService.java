@@ -18,12 +18,14 @@ public class TestService {
     @Autowired
     private RedisLockClient redisLockClient;
 
-    @Klock(waitTime = 10, leaseTime = 60, keys = {"#param"}, lockTimeoutStrategy = LockTimeoutStrategy.FAIL_FAST, onFailure = RuntimeException.class)
+    @Klock(keys = {"#param"},
+        lockTimeoutStrategy = LockTimeoutStrategy.FAIL_FAST,
+        customLockTimeoutStrategy = "lockParams",customReleaseTimeoutStrategy = "releaseParams")
     public String getValue(String param) throws Exception {
 
         System.out.println(param + "================" + Thread.currentThread().getName());
         //  if ("sleep".equals(param)) {//线程休眠或者断点阻塞，达到一直占用锁的测试效果
-        Thread.sleep(1000 * 2);
+        Thread.sleep(1000 * 3);
         //}
         return "success";
     }
