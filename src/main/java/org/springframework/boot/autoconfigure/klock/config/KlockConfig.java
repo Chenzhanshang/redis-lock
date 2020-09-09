@@ -9,8 +9,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 public class KlockConfig {
 
   public static final String PREFIX = "spring.klock";
-  public static long DEFAULT_WAIT_TIME = 60;
-  public static long DEFAULT_LEASE_TIME = 60;
+  public static long DEFAULT_WAIT_TIME = 3;
+  public static long DEFAULT_LEASE_TIME = 10;
 
   //redisson
   private String address;

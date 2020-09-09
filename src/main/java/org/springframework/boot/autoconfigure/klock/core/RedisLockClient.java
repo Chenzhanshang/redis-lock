@@ -1,9 +1,6 @@
 package org.springframework.boot.autoconfigure.klock.core;
 
 import com.alibaba.fastjson.JSON;
-import java.util.Map;
-import java.util.Objects;
-import java.util.concurrent.ConcurrentHashMap;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,6 +11,10 @@ import org.springframework.boot.autoconfigure.klock.lock.LockFactory;
 import org.springframework.boot.autoconfigure.klock.model.LockInfo;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
+
+import java.util.Map;
+import java.util.Objects;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Redis分布式锁客户端
